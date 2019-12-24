@@ -50,6 +50,12 @@ class Config(object):
     }
 
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
+    MONGO_OPTIONS = {
+        "maxIdleTimeMS": 5000,
+        "maxPoolSize": 100
+    }
+
     MONGO_URI = os.environ.get("MONGODB_URI")
     REDIS_URL = os.environ.get("REDIS_URL")
 

@@ -13,7 +13,6 @@ bundles = {
         'css/leaflet-areaselect.css',
         'css/datatables.min.css',
         'css/easy-button.css',
-        # 'css/lv.css',
         filters='cssmin',
         output='gen/main.css'
     ),
@@ -29,9 +28,7 @@ bundles = {
             'js/leaflet.js',
             'js/leaflet-sidebar.min.js',
             'js/download.min.js',
-            'js/gif2.js',  # Johan Nordberg: http://jnordberg.github.io/gif.js/
-            # 'js/localforage.min.js',  # for local storage
-            # 'js/idb-keyval-iife.min.js', # for local sorage
+            'js/gif2.js',  # Johan Nordberg: http://jnordberg.github.io/gif.js/ 
             output="gen/pre-compiled-dependencies.js"
         ),
         # un-minified dependencies
@@ -43,7 +40,6 @@ bundles = {
             'js/leaflet-image.js',  # Tom MacWright: https://github.com/mapbox/leaflet-image
             'js/leaflet-areaselect.js',
             'js/easy-button.js',
-            # 'js/lv.js', # nicer progress indicators
             filters=["babel", "rjsmin"],
             output="gen/build/non-compiled-dependencies.js"
         ),
