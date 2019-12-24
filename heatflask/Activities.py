@@ -609,7 +609,32 @@ class Streams(dict):
     def cache_key(id):
         return "A:{}".format(id)
 
-   
+   @classmethod
+    def get(cls, _id, ttl=CACHE_TTL):
+        packed = None
+        key = cls.cache_key(id)
+        cached = redis.get(key)
+
+        if cached:
+            redis.expire(key, ttl)  # reset expiration timeout
+            packed = cached
+        else:
+            try:
+                document = cls.db.find_one_and_update(
+                    {"_id": int(_id)},
+                    {"$set": {"ts": datetime.utcnow()}}
+                )
+
+            except Exception:
+                log.debug("Failed mongodb find_one_and_update %s", _id)
+                return
+
+            if document:
+                packed = document["mpk"]
+                redis.setex(key, ttl, packed)
+        if packed:
+            return msgpack.unpackb(packed, encoding="utf-8")
+
 
     @classmethod
     def get_many(cls, ids, ttl=CACHE_TTL, ordered=False):
@@ -685,8 +710,6 @@ class Streams(dict):
     def __init__(self):
             super()
             self._key = None
-            for k,v in self.items():
-                
 
     @property
     def key(self):
@@ -732,32 +755,7 @@ class Activities(dict):
             return {}
 
     
-    @classmethod
-    def get(cls, _id, ttl=CACHE_TTL):
-        packed = None
-        key = cls.cache_key(id)
-        cached = redis.get(key)
-
-        if cached:
-            redis.expire(key, ttl)  # reset expiration timeout
-            packed = cached
-        else:
-            try:
-                document = cls.db.find_one_and_update(
-                    {"_id": int(_id)},
-                    {"$set": {"ts": datetime.utcnow()}}
-                )
-
-            except Exception:
-                log.debug("Failed mongodb find_one_and_update %s", _id)
-                return
-
-            if document:
-                packed = document["mpk"]
-                redis.setex(key, ttl, packed)
-        if packed:
-            return msgpack.unpackb(packed, encoding="utf-8")
-
+    
     @classmethod
     def import_streams(cls, client, activity, timeout=CACHE_TTL):
         if OFFLINE:
