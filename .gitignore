@@ -120,7 +120,7 @@ backend/heatflask/.users.db
 
 # For Development
 #frontend/dist
-#frontend/dev-docs.md
+frontend/dev-docs.md
 
 # For Production
 frontend/dist/fa-*
