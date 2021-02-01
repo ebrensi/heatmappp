@@ -119,10 +119,10 @@ backend/heatflask/.users.db
 #package-lock.json
 
 # For Development
-frontend/dist
-frontend/dev-docs.md
+#frontend/dist
+#frontend/dev-docs.md
 
 # For Production
-# frontend/dist/fa-*
-# !frontend/dist/fa-brands*.woff2
-# !frontend/dist/fa-solid*.woff2
+frontend/dist/fa-*
+!frontend/dist/fa-brands*.woff2
+!frontend/dist/fa-solid*.woff2
